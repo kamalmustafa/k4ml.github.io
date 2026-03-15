@@ -97,11 +97,9 @@ img { max-width: 100%; height: auto; }
   margin-right: auto;
   padding-left: 20px;
   padding-right: 20px;
-  border-radius: 12px;
-  margin-top: 1.5em;
   box-shadow: 0 0 40px rgba(88, 166, 255, 0.05);
   position: relative;
-  overflow: hidden;
+  border-radius: 0;
 }
 
 #bighead::before {
@@ -114,6 +112,7 @@ img { max-width: 100%; height: auto; }
   background: linear-gradient(90deg, #58a6ff, #8858d9, #58a6ff);
   background-size: 200% 100%;
   animation: header-gradient 3s ease infinite;
+  border-radius: 0;
 }
 
 @keyframes header-gradient {
@@ -407,6 +406,7 @@ body.light-mode #bighead {
   background: #ffffff;
   border-color: #d0d7de;
   box-shadow: 0 0 40px rgba(9, 105, 218, 0.08);
+  border-radius: 0;
 }
 
 body.light-mode #bighead h1,
