@@ -5,42 +5,36 @@
 
     {% include meta.html %}
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/custom.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
 
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
 
   <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
-
-          <nav>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-              <span class="icon">🌙</span>
-            </button>
-            <a href="/blog/">Blog</a>
-            <a href="/qna/">QnA</a>
-            <a href="/hire-me/">Hire me</a>
-          </nav>
-        </header>
+    <div id="bighead">
+      <div id="h1-nav-wrapper">
+        <h1><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
+        <nav>
+          <ul>
+            <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
+            <li><a href="{{ site.baseurl }}/qna/">QnA</a></li>
+            <li><a href="{{ site.baseurl }}/hire-me/">Hire me</a></li>
+            <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+          </ul>
+        </nav>
+      </div>
+      <div id="bigheadcontainer">
+        <form action="{{ site.baseurl }}/search/" method="GET">
+          <input type="search" placeholder="Search this site" class="search-input" name="q">
+          <input type="submit" class="search-submit" value="Search">
+        </form>
       </div>
     </div>
 
-    <div id="main" role="main" class="container">
-      {{ content }}
+    <div id="wrapper">
+      <div id="main" role="main" class="container">
+        {{ content }}
+      </div>
     </div>
 
     <div class="wrapper-footer">
@@ -52,33 +46,19 @@
     </div>
 
     <script>
-      // Theme toggle functionality
-      const themeToggle = document.getElementById('theme-toggle');
-      const body = document.body;
-      const icon = themeToggle.querySelector('.icon');
-      
-      // Check for saved theme preference or default to dark mode
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      
-      // Apply saved theme
-      if (currentTheme === 'light') {
-        body.classList.add('light-mode');
-        icon.textContent = '☀️';
-      } else {
-        icon.textContent = '🌙';
-      }
-      
-      // Toggle theme on button click
-      themeToggle.addEventListener('click', () => {
-        body.classList.toggle('light-mode');
-        
-        if (body.classList.contains('light-mode')) {
-          icon.textContent = '☀️';
-          localStorage.setItem('theme', 'light');
-        } else {
-          icon.textContent = '🌙';
-          localStorage.setItem('theme', 'dark');
+      (function() {
+        const theme = localStorage.getItem('theme');
+        if (theme === 'light') {
+          document.body.classList.add('light-mode');
         }
+      })();
+
+      const themeToggle = document.getElementById('theme-toggle');
+      themeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeToggle.textContent = isLight ? '☀️' : '🌙';
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
       });
     </script>
 

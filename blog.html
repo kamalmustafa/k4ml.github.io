@@ -3,16 +3,14 @@ layout: default
 ---
 
 <div class="posts">
+  <h2 class="overband">Latest Entries</h2>
   {% for post in site.posts %}
-    <article class="post">
-
-      <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
-
-      <div class="entry">
-        {{ post.excerpt }}
+    <div class="entry segment">
+      <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+      <p>{{ post.excerpt }}</p>
+      <div class="entryFooter">
+        <a href="{{ site.baseurl }}{{ post.url }}" title="Permalink for &quot;{{ post.title }}&quot;">{{ post.date }}</a>
       </div>
-
-      <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-    </article>
+    </div>
   {% endfor %}
 </div>
