@@ -12,27 +12,27 @@
 
   <body>
     <div id="bighead">
-      <div id="h1-nav-wrapper">
-        <h1><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-        <nav>
-          <ul>
-            <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
-            <li><a href="{{ site.baseurl }}/qna/">QnA</a></li>
-            <li><a href="{{ site.baseurl }}/hire-me/">Hire me</a></li>
-            <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
-          </ul>
-        </nav>
-      </div>
-      <div id="bigheadcontainer">
-        <form action="{{ site.baseurl }}/search/" method="GET">
-          <input type="search" placeholder="Search this site" class="search-input" name="q">
-          <input type="submit" class="search-submit" value="Search">
-        </form>
+      <div class="container">
+        <div id="h1-nav-wrapper">
+          <h1><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
+          <nav>
+            <ul>
+              <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
+              <li><a href="{{ site.baseurl }}/qna/">Q&A</a></li>
+              <li><a href="{{ site.baseurl }}/hire-me/">Hire me</a></li>
+              <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
 
     <div id="wrapper">
       <div id="main" role="main" class="container">
+        <form action="{{ site.baseurl }}/search/" method="GET" class="search-form">
+          <input type="search" placeholder="Search this site..." class="search-input" name="q">
+          <button type="submit" class="search-submit">Search</button>
+        </form>
         {{ content }}
       </div>
     </div>
