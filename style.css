@@ -134,16 +134,24 @@ img { max-width: 100%; height: auto; }
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 1.5em;
+  gap: 0.5em;
 }
 
 #bighead nav a {
   color: #8b949e;
   font-size: 0.9rem;
   font-weight: 500;
+  padding: 0.4em 0.8em;
+  border-radius: 6px;
+  background: #21262d;
+  transition: all 0.2s;
 }
 
-#bighead nav a:hover { color: #58a6ff; }
+#bighead nav a:hover {
+  background: #30363d;
+  color: #f0f6fc;
+  text-decoration: none;
+}
 
 #bigheadcontainer { margin-top: 1em; }
 
@@ -327,12 +335,26 @@ pre code {
 
 /* Light mode */
 body.light-mode {
-  background: #ffffff;
-  color: #24292f;
+  background: #f5f5f5;
+  color: #1f2328;
 }
 
 body.light-mode #bighead {
-  background: #f6f8fa;
+  background: #ffffff;
+  border-color: #d0d7de;
+}
+
+body.light-mode #bighead h1,
+body.light-mode #bighead h1 a { color: #1f2328; }
+
+body.light-mode #bighead nav a {
+  color: #ffffff;
+  background: #0969da;
+}
+
+body.light-mode #bighead nav a:hover {
+  background: #0550ae;
+  color: #ffffff;
 }
 
 body.light-mode h1, 
@@ -344,15 +366,13 @@ body.light-mode h1 a {
 
 body.light-mode a { color: #0969da; }
 body.light-mode .date { color: #656d76; }
-body.light-mode #bighead nav a { color: #656d76; }
-body.light-mode #bighead nav a:hover { color: #0969da; }
 body.light-mode .post blockquote { background: #f6f8fa; color: #555; }
 body.light-mode .entryFooter a { color: #656d76; }
 body.light-mode .overband { color: #656d76; }
 body.light-mode .blog-mixed-list-year { color: #656d76; }
 body.light-mode .segment { border-bottom-color: #d0d7de; }
 body.light-mode .posts > .post { border-bottom-color: #d0d7de; }
-body.light-mode .wrapper-footer { background: #f6f8fa; border-color: #d0d7de; }
+body.light-mode .wrapper-footer { background: #ffffff; border-color: #d0d7de; }
 body.light-mode footer { color: #656d76; }
 body.light-mode .notes { border-top-color: #d0d7de; color: #656d76; }
 body.light-mode code { background: #f6f8fa; color: #cf222e; }
@@ -360,6 +380,6 @@ body.light-mode pre,
 body.light-mode .highlight { background: #f6f8fa; border-color: #d0d7de; }
 body.light-mode pre code { color: #24292f; }
 body.light-mode .search-input { background: #ffffff; border-color: #d0d7de; color: #24292f; }
-body.light-mode .theme-toggle { border-color: #d0d7de; color: #656d76; }
-body.light-mode .theme-toggle:hover { background: #d0d7de; }
+body.light-mode .theme-toggle { border-color: #d0d7de; color: #656d76; background: #ffffff; }
+body.light-mode .theme-toggle:hover { background: #f6f8fa; }
 body.light-mode ::selection { background: #0969da; }
