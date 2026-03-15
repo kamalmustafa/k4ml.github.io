@@ -456,6 +456,11 @@ body.light-mode .segment:hover {
   border-left-color: #0969da;
 }
 
+body.light-mode .post {
+  background: #ffffff;
+  color: #1f2328;
+}
+
 body.light-mode #bighead h1,
 body.light-mode #bighead h1 a { color: #1f2328; }
 
