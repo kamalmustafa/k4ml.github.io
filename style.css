@@ -129,12 +129,6 @@ img { max-width: 100%; height: auto; }
   animation: header-gradient 3s ease infinite;
 }
 
-#wrapper {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 #main {
   padding: 2em 0;
 }
