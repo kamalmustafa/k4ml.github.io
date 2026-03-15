@@ -578,6 +578,32 @@ class JekyllSSG:
                     rendered_body = rendered_body.replace(
                         f"{{{{ {loop_var}.date }}}}", str(post.get("date", ""))
                     )
+                    # Strip HTML from excerpt
+                    import re
+
+                    raw_excerpt = post.get("content", "")[:400]
+                    clean_excerpt = re.sub(r"<[^>]+>", "", raw_excerpt).strip()
+                    rendered_body = rendered_body.replace(
+                        f"{{{{ {loop_var}.excerpt }}}}",
+                        clean_excerpt + "...",
+                    )
+                    # Also handle without spaces around variable
+                    rendered_body = rendered_body.replace(
+                        f"{{{{{loop_var}.title}}}}", post.get("title", "")
+                    )
+                    rendered_body = rendered_body.replace(
+                        f"{{{{{loop_var}.url}}}}", post_url
+                    )
+                    rendered_body = rendered_body.replace(
+                        f"{{{{{loop_var}.date}}}}", str(post.get("date", ""))
+                    )
+                    rendered_body = rendered_body.replace(
+                        f"{{{{{loop_var}.excerpt}}}}",
+                        clean_excerpt + "...",
+                    )
+                    rendered_body = rendered_body.replace(
+                        f"{{{{ {loop_var}.date }}}}", str(post.get("date", ""))
+                    )
                     rendered_body = rendered_body.replace(
                         f"{{{{ {loop_var}.excerpt }}}}",
                         post.get("content", "")[:200] + "...",
