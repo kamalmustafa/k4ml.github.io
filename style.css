@@ -315,6 +315,8 @@ img { max-width: 100%; height: auto; }
 
 .entry { margin: 1em 0; color: #c9d1d9; }
 
+body.light-mode .entry { color: #1f2328; }
+
 .read-more {
   color: #58a6ff;
   font-size: 0.9rem;
