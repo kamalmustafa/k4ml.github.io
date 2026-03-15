@@ -183,11 +183,13 @@ class JekyllSSG:
         page_data = context.get("page", {})
 
         # Handle {{ page.excerpt | strip_html }}
-        excerpt = page_data.get("content", "")[:200]
-        # Simple strip_html - remove HTML tags
+        content_html = page_data.get("content", "")
+        # Strip all HTML first to avoid partial tags
         import re
-
-        excerpt = re.sub(r"<[^>]+>", "", excerpt)
+        clean_content = re.sub(r"<[^>]+>", " ", content_html)
+        clean_content = re.sub(r"\s+", " ", clean_content).strip()
+        excerpt = clean_content[:200]
+        
         text = re.sub(r"{{\s*page\.excerpt\s*\|\s*strip_html\s*}}", excerpt, text)
 
         # Replace simple variables
@@ -568,7 +570,26 @@ class JekyllSSG:
                     if post_url.endswith("/index.html"):
                         post_url = post_url[:-10]  # Remove "index.html"
 
-                    # Replace post variables
+                    # Handle excerpt with and without strip_html filter
+                    content_html = post.get("content", "")
+                    # Strip all HTML first to avoid partial tags
+                    import re
+                    clean_content = re.sub(r"<[^>]+>", " ", content_html)
+                    clean_content = re.sub(r"\s+", " ", clean_content).strip()
+                    clean_excerpt = clean_content[:400]
+                    
+                    # Patterns for replacement
+                    excerpt_patterns = [
+                        f"{{{{ {loop_var}.excerpt | strip_html }}}}",
+                        f"{{{{{loop_var}.excerpt | strip_html}}}}",
+                        f"{{{{ {loop_var}.excerpt }}}}",
+                        f"{{{{{loop_var}.excerpt}}}}",
+                    ]
+                    
+                    for pattern in excerpt_patterns:
+                        rendered_body = rendered_body.replace(pattern, clean_excerpt + "...")
+
+                    # Replace other post variables
                     rendered_body = rendered_body.replace(
                         f"{{{{ {loop_var}.title }}}}", post.get("title", "")
                     )
@@ -578,15 +599,6 @@ class JekyllSSG:
                     rendered_body = rendered_body.replace(
                         f"{{{{ {loop_var}.date }}}}", str(post.get("date", ""))
                     )
-                    # Strip HTML from excerpt
-                    import re
-
-                    raw_excerpt = post.get("content", "")[:400]
-                    clean_excerpt = re.sub(r"<[^>]+>", "", raw_excerpt).strip()
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.excerpt }}}}",
-                        clean_excerpt + "...",
-                    )
                     # Also handle without spaces around variable
                     rendered_body = rendered_body.replace(
                         f"{{{{{loop_var}.title}}}}", post.get("title", "")
@@ -596,31 +608,6 @@ class JekyllSSG:
                     )
                     rendered_body = rendered_body.replace(
                         f"{{{{{loop_var}.date}}}}", str(post.get("date", ""))
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.excerpt}}}}",
-                        clean_excerpt + "...",
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.date }}}}", str(post.get("date", ""))
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.excerpt }}}}",
-                        post.get("content", "")[:200] + "...",
-                    )
-                    # Also handle without spaces around variable
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.title}}}}", post.get("title", "")
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.url}}}}", post_url
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.date}}}}", str(post.get("date", ""))
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.excerpt}}}}",
-                        post.get("content", "")[:200] + "...",
                     )
 
                     output.append(rendered_body)

@@ -7,7 +7,7 @@ layout: default
   {% for post in site.posts %}
     <div class="entry segment">
       <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
-      <p>{{ post.excerpt }}</p>
+      <p>{{ post.excerpt | strip_html }}</p>
       <div class="entryFooter">
         <a href="{{ site.baseurl }}{{ post.url }}" title="Permalink for &quot;{{ post.title }}&quot;">{{ post.date }}</a>
       </div>
