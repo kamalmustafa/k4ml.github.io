@@ -63,8 +63,6 @@ body {
 
 .segment:hover {
   border-left: 4px solid #58a6ff;
-  padding-left: calc(1.5em - 4px);
-  margin-left: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
