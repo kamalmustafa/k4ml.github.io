@@ -102,6 +102,8 @@ img { max-width: 100%; height: auto; }
 .clearfix:after { clear: both; }
 
 #bighead {
+  max-width: 900px;
+  margin: 0 auto;
   border-bottom: 1px solid #30363d;
   padding: 1.5em 20px;
   background: #161b22;
