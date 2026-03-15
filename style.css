@@ -53,7 +53,7 @@ body {
   padding: 0 20px;
 }
 
-.segment {
+.segment, .entry.segment {
   padding: 1.5em;
   border-bottom: 1px solid #21262d;
   margin-bottom: 1em;
@@ -271,6 +271,15 @@ img { max-width: 100%; height: auto; }
   padding-bottom: 1.5em;
   margin-bottom: 1.5em;
   border-bottom: 1px solid #21262d;
+  background: #161b22;
+  padding: 1.5em;
+}
+
+.post-full {
+  max-width: 100%;
+  background: #161b22;
+  padding: 2em;
+  margin-bottom: 2em;
 }
 
 .posts > .post:last-child { border-bottom: none; }
