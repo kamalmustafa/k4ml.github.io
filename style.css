@@ -296,19 +296,16 @@ img { max-width: 100%; height: auto; }
 .entryFooter a:hover { color: #58a6ff; }
 
 .segment {
-  padding: 1.25em 1em;
+  padding: 1.25em 0;
   border-bottom: 1px solid #21262d;
-  border-radius: 8px;
   margin-bottom: 0.5em;
   transition: all 0.2s ease;
-  background: rgba(22, 27, 34, 0.5);
 }
 
 .segment:hover {
-  background: rgba(22, 27, 34, 0.8);
-  transform: translateX(4px);
   border-left: 3px solid #58a6ff;
-  padding-left: calc(1em - 2px);
+  padding-left: calc(0 + 3px);
+  margin-left: -3px;
 }
 
 .segment:last-child { border-bottom: none; }
@@ -442,13 +439,9 @@ body.light-mode .overband {
 body.light-mode .blog-mixed-list-year { color: #656d76; }
 body.light-mode .segment { 
   border-bottom-color: #d0d7de; 
-  background: #ffffff;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
 }
 body.light-mode .segment:hover {
-  background: #ffffff;
   border-left-color: #0969da;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 }
 body.light-mode .segment p {
   color: #24292f;
