@@ -51,7 +51,20 @@ body {
   max-width: 900px;
   margin: 0 auto;
   padding: 0 20px;
-  min-height: 60vh;
+}
+
+.segment {
+  padding: 1.5em;
+  border-bottom: 1px solid #21262d;
+  margin-bottom: 1em;
+  transition: all 0.2s ease;
+  background: #161b22;
+}
+
+.segment:hover {
+  border-left: 4px solid #58a6ff;
+  padding-left: calc(1.5em - 4px);
+  margin-left: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -90,17 +103,9 @@ img { max-width: 100%; height: auto; }
 
 #bighead {
   border-bottom: 1px solid #30363d;
-  padding: 1.5em 0;
-  margin-bottom: 2em;
+  padding: 1.5em 20px;
   background: #161b22;
-  max-width: 900px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
-  box-shadow: 0 0 40px rgba(88, 166, 255, 0.05);
   position: relative;
-  border-radius: 0;
 }
 
 #bighead::before {
@@ -113,7 +118,16 @@ img { max-width: 100%; height: auto; }
   background: linear-gradient(90deg, #58a6ff, #8858d9, #58a6ff);
   background-size: 200% 100%;
   animation: header-gradient 3s ease infinite;
-  border-radius: 0;
+}
+
+#wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+#main {
+  padding: 2em 0;
 }
 
 @keyframes header-gradient {
@@ -403,8 +417,14 @@ body.light-mode {
 body.light-mode #bighead {
   background: #ffffff;
   border-color: #d0d7de;
-  box-shadow: 0 0 40px rgba(9, 105, 218, 0.08);
-  border-radius: 0;
+}
+
+body.light-mode .segment { 
+  border-bottom-color: #d0d7de; 
+  background: #ffffff;
+}
+body.light-mode .segment:hover {
+  border-left-color: #0969da;
 }
 
 body.light-mode #bighead h1,
