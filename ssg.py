@@ -183,11 +183,13 @@ class JekyllSSG:
         page_data = context.get("page", {})
 
         # Handle {{ page.excerpt | strip_html }}
-        excerpt = page_data.get("content", "")[:200]
-        # Simple strip_html - remove HTML tags
+        content_html = page_data.get("content", "")
+        # Strip all HTML first to avoid partial tags
         import re
-
-        excerpt = re.sub(r"<[^>]+>", "", excerpt)
+        clean_content = re.sub(r"<[^>]+>", " ", content_html)
+        clean_content = re.sub(r"\s+", " ", clean_content).strip()
+        excerpt = clean_content[:200]
+        
         text = re.sub(r"{{\s*page\.excerpt\s*\|\s*strip_html\s*}}", excerpt, text)
 
         # Replace simple variables
@@ -548,59 +550,92 @@ class JekyllSSG:
             collection_expr = match.group(2).strip()
             loop_body = match.group(3)
 
-            # Handle site.posts
-            if collection_expr == "site.posts":
-                output = []
-                for post in self.posts:
-                    # Replace loop variables in the body
-                    rendered_body = loop_body
+            loop_match = re.fullmatch(r"(site\.\w+)(?:\s+limit:(\d+))?", collection_expr)
+            if not loop_match:
+                return match.group(0)
 
-                    # Replace site variables first
-                    rendered_body = rendered_body.replace(
-                        "{{ site.baseurl }}", self.config.get("baseurl", "")
-                    )
-                    rendered_body = rendered_body.replace(
-                        "{{ site.name }}", self.config.get("name", "")
-                    )
+            collection_name = loop_match.group(1)
+            limit = int(loop_match.group(2)) if loop_match.group(2) else None
 
-                    # Get clean URL (without index.html for display)
-                    post_url = post.get("url", "")
-                    if post_url.endswith("/index.html"):
-                        post_url = post_url[:-10]  # Remove "index.html"
+            if collection_name == "site.posts":
+                items = self.posts
+            elif collection_name.startswith("site."):
+                items = self.collections.get(collection_name[5:], [])
+            else:
+                items = []
 
-                    # Replace post variables
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.title }}}}", post.get("title", "")
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.url }}}}", post_url
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.date }}}}", str(post.get("date", ""))
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{ {loop_var}.excerpt }}}}",
-                        post.get("content", "")[:200] + "...",
-                    )
-                    # Also handle without spaces around variable
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.title}}}}", post.get("title", "")
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.url}}}}", post_url
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.date}}}}", str(post.get("date", ""))
-                    )
-                    rendered_body = rendered_body.replace(
-                        f"{{{{{loop_var}.excerpt}}}}",
-                        post.get("content", "")[:200] + "...",
-                    )
+            if limit is not None:
+                items = items[:limit]
 
-                    output.append(rendered_body)
-                return "".join(output)
+            output = []
+            for item in items:
+                rendered_body = loop_body
 
-            return match.group(0)  # Return unchanged if not recognized
+                rendered_body = rendered_body.replace(
+                    "{{ site.baseurl }}", self.config.get("baseurl", "")
+                )
+                rendered_body = rendered_body.replace(
+                    "{{ site.name }}", self.config.get("name", "")
+                )
+
+                item_url = item.get("url", "")
+                if item_url.endswith("/index.html"):
+                    item_url = item_url[:-10]
+
+                content_html = item.get("content", "")
+                clean_content = re.sub(r"<[^>]+>", " ", content_html)
+                clean_content = re.sub(r"\s+", " ", clean_content).strip()
+                clean_excerpt = clean_content[:400]
+                if len(clean_content) > 400:
+                    clean_excerpt += "..."
+
+                excerpt_patterns = [
+                    f"{{{{ {loop_var}.excerpt | strip_html }}}}",
+                    f"{{{{{loop_var}.excerpt | strip_html}}}}",
+                    f"{{{{ {loop_var}.excerpt }}}}",
+                    f"{{{{{loop_var}.excerpt}}}}",
+                ]
+
+                for pattern in excerpt_patterns:
+                    rendered_body = rendered_body.replace(pattern, clean_excerpt)
+
+                loop_context = {
+                    **context,
+                    "title": item.get("title", ""),
+                    "date": item.get("date", ""),
+                    "page": item,
+                }
+
+                rendered_body = re.sub(
+                    rf"{{{{\s*{re.escape(loop_var)}\.date\s*\|\s*date:\s*([\"'][^\"']+[\"'])\s*}}}}",
+                    lambda m: self.process_filters(
+                        "{{ page.date | date: " + m.group(1) + " }}", loop_context
+                    ),
+                    rendered_body,
+                )
+
+                rendered_body = rendered_body.replace(
+                    f"{{{{ {loop_var}.title }}}}", item.get("title", "")
+                )
+                rendered_body = rendered_body.replace(
+                    f"{{{{ {loop_var}.url }}}}", item_url
+                )
+                rendered_body = rendered_body.replace(
+                    f"{{{{ {loop_var}.date }}}}", str(item.get("date", ""))
+                )
+                rendered_body = rendered_body.replace(
+                    f"{{{{{loop_var}.title}}}}", item.get("title", "")
+                )
+                rendered_body = rendered_body.replace(
+                    f"{{{{{loop_var}.url}}}}", item_url
+                )
+                rendered_body = rendered_body.replace(
+                    f"{{{{{loop_var}.date}}}}", str(item.get("date", ""))
+                )
+
+                output.append(rendered_body)
+
+            return "".join(output)
 
         # Pattern for {% for var in collection %}...{% endfor %}
         pattern = r"{%\s*for\s+(\w+)\s+in\s+([^%]+)\s*%}(.*?){%\s*endfor\s*%}"

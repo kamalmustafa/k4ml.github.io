@@ -1,85 +1,83 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
 
     {% include meta.html %}
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/custom.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+    <script>
+      (function() {
+        var savedTheme = localStorage.getItem('theme');
+        var theme = savedTheme || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
 
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
   </head>
 
   <body>
-    <div class="wrapper-masthead">
+    <header class="site-header">
       <div class="container">
-        <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
-
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
+        <div class="site-header__inner">
+          <div class="site-brand">
+            <p class="site-kicker">{{ site.name }}</p>
+            <a class="site-title" href="{{ site.baseurl }}/">Engineer, writer, and builder of developer tools</a>
           </div>
-
-          <nav>
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-              <span class="icon">🌙</span>
-            </button>
-            <a href="/blog/">Blog</a>
-            <a href="/qna/">QnA</a>
-            <a href="/hire-me/">Hire me</a>
+          <nav class="site-nav" aria-label="Primary">
+            <ul>
+              <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
+              <li><a href="{{ site.baseurl }}/qna/">Q&A</a></li>
+              <li><a href="{{ site.baseurl }}/hire-me/">Hire me</a></li>
+              <li><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">Theme</button></li>
+            </ul>
           </nav>
-        </header>
+        </div>
       </div>
-    </div>
+    </header>
 
-    <div id="main" role="main" class="container">
-      {{ content }}
+    <div class="site-shell">
+      <div id="main" role="main" class="container">
+        {{ content }}
+      </div>
     </div>
 
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
-          {% include svg-icons.html %}
+          <div>
+            <p class="footer-title">{{ site.name }}</p>
+            <p class="footer-copy">Notes on software engineering, developer tools, and building useful things over a long career.</p>
+          </div>
+          <div class="footer-links">
+            {% include svg-icons.html %}
+          </div>
         </footer>
       </div>
     </div>
 
     <script>
-      // Theme toggle functionality
-      const themeToggle = document.getElementById('theme-toggle');
-      const body = document.body;
-      const icon = themeToggle.querySelector('.icon');
-      
-      // Check for saved theme preference or default to dark mode
-      const currentTheme = localStorage.getItem('theme') || 'dark';
-      
-      // Apply saved theme
-      if (currentTheme === 'light') {
-        body.classList.add('light-mode');
-        icon.textContent = '☀️';
-      } else {
-        icon.textContent = '🌙';
-      }
-      
-      // Toggle theme on button click
-      themeToggle.addEventListener('click', () => {
-        body.classList.toggle('light-mode');
-        
-        if (body.classList.contains('light-mode')) {
-          icon.textContent = '☀️';
-          localStorage.setItem('theme', 'light');
-        } else {
-          icon.textContent = '🌙';
-          localStorage.setItem('theme', 'dark');
+      (function() {
+        var root = document.documentElement;
+        var themeToggle = document.getElementById('theme-toggle');
+
+        function applyTheme(theme) {
+          var isDark = theme === 'dark';
+          root.setAttribute('data-theme', theme);
+          themeToggle.setAttribute('aria-pressed', String(isDark));
+          themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+          themeToggle.textContent = isDark ? 'Light' : 'Dark';
         }
-      });
+
+        applyTheme(root.getAttribute('data-theme') || 'light');
+
+        themeToggle.addEventListener('click', function() {
+          var nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          localStorage.setItem('theme', nextTheme);
+          applyTheme(nextTheme);
+        });
+      })();
     </script>
 
     {% include analytics.html %}

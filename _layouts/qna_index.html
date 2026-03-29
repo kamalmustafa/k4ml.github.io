@@ -3,7 +3,7 @@ layout: default
 ---
 
 {% include qna.html %}
-<ul>
+<ul class="qna-list">
 {% for qna in site.qna  %}
     {% if qna.title != 'Index' %}
     <li><a href="{{ qna.url }}">{{ qna.title }}</a></li>
