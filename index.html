@@ -2,37 +2,82 @@
 layout: default
 ---
 
-<div class="posts">
-    <article class="post">
-    <h1>About Me</h1>
-        <p>My name is Kamal Bin Mustafa, mostly people will just call me Kamal. I am a Malaysian living in the southern State of Johor, near Singapore. Online, I mostly know through my handle k4ml.</p>
-    
-    <p>I have been a web developer since early 2000 where my first professional experience was in building PHP web applications. We build numerous applications for government agencies such as JKR, KKR, JPN, JPM etc. My next job was with a software agency in Singapore where we build e-commerce websites for our clients using Drupal CMS. Since 2010, I have worked at Xoxzo Inc building web telephony API and managed to grow the company from 2 people into a team of 10 engineers working fully remotely spanning multiple cities from Tokyo to Seoul, Manila, KL, Jakarta, Ufa and Kolkatta. Xoxzo Inc was acquired by a public listed company in Tokyo, Accrete Inc. in 2021.</p>
-        
-<p>I'm currently a CTO at LaLoka Labs where we're focusing on our next adventure in building services that can help software developers in making their life easier.</p>
+<section class="hero">
+  <div class="hero-layout">
+    <div class="hero-main">
+      <p class="eyebrow">Personal Site</p>
+      <div class="hero-intro">
+        <h1>Kamal Mustafa writes about software engineering with the perspective of someone who has been shipping for decades.</h1>
+        <p class="hero-summary">I am a Malaysian engineer and engineering leader based in Johor, near Singapore. My work spans Python, Django, remote teams, developer tooling, and the practical realities of building software that survives contact with production.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="button" href="{{ site.baseurl }}/blog/">Read the blog</a>
+        <a class="button-secondary" href="{{ site.baseurl }}/hire-me/">Work with me</a>
+      </div>
+    </div>
+    <div class="fact-grid">
+      <div class="fact-card">
+        <strong>20+ years</strong>
+        <p>Building web products, teams, and internal systems across agencies, startups, and distributed engineering organizations.</p>
+      </div>
+      <div class="fact-card">
+        <strong>Talks and teaching</strong>
+        <p>Speaker at PyCon APAC, PyConMY, PyConID, MOSCMY, and community meetups, with workshops for universities and technical teams.</p>
+      </div>
+      <div class="fact-card">
+        <strong>Current focus</strong>
+        <p>CTO at LaLoka Labs, working on products and services that make software developers more effective.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-<p>I love writing about technologies especially in software development and also giving talks through various platforms. Among the talks I have presented before:-</p>
+<div class="home-grid">
+  <section class="home-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Latest Writing</p>
+        <h2>Recent notes from the blog</h2>
+      </div>
+      <a href="{{ site.baseurl }}/blog/">View all posts</a>
+    </div>
 
-<ul>
-    <li>Python/Django Web Development for PHP Developers at Pycon APAC 2012 in Singapore</li>
-    <li>Mastering Python Ecosystem at PyconMY 2015</li>
-    <li>Contributing to Open Source Project at Malaysia Open Source Conference (MOSCMY) 2016</li>
-    <li>Building Your Own Programming Language - The First Step - MOSCMY 2017</li>
-    <li>Django From Scratch at Pycon APAC 2017 in Kuala Lumpur, Malaysia</li>
-    <li>Mastering Python Ecosystem at PyconID 2018 in Jakarta, Indonesia</li>
-    <li>Building Remote Software Team, Experiences and Practices at Jomweb Johor Meetup 2022, Medini, Malaysia</li>
-    <li>Remote IDE For Remote Developer at JomLaunch 2022, Kuala Lumpur, Malaysia</li>
-    <li>Remote IDE Best Practices at SEKOPI 2023, UKM, Malaysia</li>
-</ul>
-        
-<p>Other than that I have also been invited to participate in student’s program at local universities such Universiti Teknologi Malaysia (UTM) and Universiti Tun Hussein Onn Malaysia (UTHM) and conducting Python/Django workshop with IT staff at Hospital Universiti Sains Malaysia (HUSM).</p>
+    <div class="entry-list">
+      {% for post in site.posts limit:3 %}
+      <article class="entry-card">
+        <p class="entry-meta">{{ post.date | date: "%B %e, %Y" }}</p>
+        <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt | strip_html }}</p>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
 
-<p>The postings on this site are my own and not necessarily represent my employer's positions, strategies or opinions. I can be reached via Twitter <a href="https://twitter.com/k4ml">@k4ml</a>, <a rel="me" href="https://fosstodon.org/@k4ml">Mastodon</a>, <a href="https://grep.koditi.my/">Hashnode</a> or <a href="http://dev.to/k4ml">dev.to/k4ml</a>.</p>
+  <aside class="home-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">Background</p>
+        <h2>What this site is for</h2>
+      </div>
+    </div>
 
-    </article>
+    <div class="note-list">
+      <div>
+        <a href="{{ site.baseurl }}/hire-me/">Advisory and short-term problem solving</a>
+        <p>Targeted help for Python and web engineering work that needs judgment more than headcount.</p>
+      </div>
+      <div>
+        <a href="{{ site.baseurl }}/qna/">Short Q&amp;A notes</a>
+        <p>Compact answers to questions that are useful enough to keep around.</p>
+      </div>
+      <div>
+        <a href="https://grep.koditi.my/">More writing elsewhere</a>
+        <p>Additional posts and cross-posted notes on developer tools and software practice.</p>
+      </div>
+    </div>
+  </aside>
 </div>
 
-<div class="notes">
-    <p>This site currently use <a href="https://jekyllrb.com/">Jekyll</a> but previously I'm using Nikola. Most of the content still in format generated by Nikola and I'm too lazy to migrate it to Jekyll. But since it just all HTML, you can still browse the <a href="/index-old.html">old site</a>.
-</div>
-<div></div>
+<section class="notice">
+  <p>This site used to be generated with Nikola, then Jekyll, and now a custom Python generator. Some older pages still carry their original structure, but the writing remains available.</p>
+</section>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
 
@@ -7,32 +7,38 @@
 
     <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
     <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+    <script>
+      (function() {
+        var savedTheme = localStorage.getItem('theme');
+        var theme = savedTheme || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
 
   </head>
 
   <body>
-    <div id="bighead">
+    <header class="site-header">
       <div class="container">
-        <div id="h1-nav-wrapper">
-          <h1><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-          <nav>
+        <div class="site-header__inner">
+          <div class="site-brand">
+            <p class="site-kicker">{{ site.name }}</p>
+            <a class="site-title" href="{{ site.baseurl }}/">Engineer, writer, and builder of developer tools</a>
+          </div>
+          <nav class="site-nav" aria-label="Primary">
             <ul>
               <li><a href="{{ site.baseurl }}/blog/">Blog</a></li>
               <li><a href="{{ site.baseurl }}/qna/">Q&A</a></li>
               <li><a href="{{ site.baseurl }}/hire-me/">Hire me</a></li>
-              <li><button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">🌙</button></li>
+              <li><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">Theme</button></li>
             </ul>
           </nav>
         </div>
       </div>
-    </div>
+    </header>
 
-    <div id="wrapper">
+    <div class="site-shell">
       <div id="main" role="main" class="container">
-        <form action="{{ site.baseurl }}/search/" method="GET" class="search-form">
-          <input type="search" placeholder="Search this site..." class="search-input" name="q">
-          <button type="submit" class="search-submit">Search</button>
-        </form>
         {{ content }}
       </div>
     </div>
@@ -40,26 +46,38 @@
     <div class="wrapper-footer">
       <div class="container">
         <footer class="footer">
-          {% include svg-icons.html %}
+          <div>
+            <p class="footer-title">{{ site.name }}</p>
+            <p class="footer-copy">Notes on software engineering, developer tools, and building useful things over a long career.</p>
+          </div>
+          <div class="footer-links">
+            {% include svg-icons.html %}
+          </div>
         </footer>
       </div>
     </div>
 
     <script>
       (function() {
-        const theme = localStorage.getItem('theme');
-        if (theme === 'light') {
-          document.body.classList.add('light-mode');
-        }
-      })();
+        var root = document.documentElement;
+        var themeToggle = document.getElementById('theme-toggle');
 
-      const themeToggle = document.getElementById('theme-toggle');
-      themeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('light-mode');
-        const isLight = document.body.classList.contains('light-mode');
-        themeToggle.textContent = isLight ? '☀️' : '🌙';
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-      });
+        function applyTheme(theme) {
+          var isDark = theme === 'dark';
+          root.setAttribute('data-theme', theme);
+          themeToggle.setAttribute('aria-pressed', String(isDark));
+          themeToggle.setAttribute('aria-label', isDark ? 'Switch to light theme' : 'Switch to dark theme');
+          themeToggle.textContent = isDark ? 'Light' : 'Dark';
+        }
+
+        applyTheme(root.getAttribute('data-theme') || 'light');
+
+        themeToggle.addEventListener('click', function() {
+          var nextTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+          localStorage.setItem('theme', nextTheme);
+          applyTheme(nextTheme);
+        });
+      })();
     </script>
 
     {% include analytics.html %}

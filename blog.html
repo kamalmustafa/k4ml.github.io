@@ -3,14 +3,23 @@ layout: default
 ---
 
 <div class="posts">
-  <h2 class="overband">Latest Entries</h2>
-  {% for post in site.posts %}
-    <div class="entry segment">
-      <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
-      <p>{{ post.excerpt | strip_html }}</p>
-      <div class="entryFooter">
-        <a href="{{ site.baseurl }}{{ post.url }}" title="Permalink for &quot;{{ post.title }}&quot;">{{ post.date }}</a>
+  <section class="page blog-hero">
+    <div class="blog-hero__layout">
+      <div>
+        <p class="eyebrow">Blog</p>
+        <h1>Writing on software, systems, and practical engineering.</h1>
+      </div>
+      <div>
+        <p class="hero-summary">A long-running personal archive of notes on Python, Django, infrastructure, remote work, and the small decisions that make engineering teams more effective.</p>
       </div>
     </div>
+  </section>
+  {% for post in site.posts %}
+    <article class="entry-card">
+      <p class="entry-meta">{{ post.date | date: "%B %e, %Y" }}</p>
+      <h3><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h3>
+      <p>{{ post.excerpt | strip_html }}</p>
+      <p><a href="{{ site.baseurl }}{{ post.url }}" title="Permalink for &quot;{{ post.title }}&quot;">Read article</a></p>
+    </article>
   {% endfor %}
 </div>
